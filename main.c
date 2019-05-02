@@ -3,7 +3,6 @@
 //declarar el rs232
 #use rs232(baud=9600,parity=N,xmit=PIN_C6,rcv=PIN_C7,bits=8)
 int count=0;
-//declarando el timer0
 #int_timer0
 void timer0()
 {
@@ -13,6 +12,11 @@ void timer0()
 void limpiar(char cadena[]);
 int repetir(char cadena[]);
 void main(){
+    setup_oscillator(OSC_16MHZ);
+    setup_timer_0(RTCC_INTERNAL|RTCC_DIV_8);
+    set_timer0(15536);
+    enable_interrupts(INT_TIMER0);
+    enable_interrupts(GLOBAL);
     char cadena[100];
     int indice=0,i=0,imprimir=0,numero=0;
     char palabra[10];
@@ -37,7 +41,11 @@ void main(){
             numero=repetir(cadena);
             printf("\n\rVeces a repetir: %d\n\r",numero);
             for(int i=0;i<numero;i++){
-                printf("[%d] -> %s\n\r",i,palabra);
+                printf("contador: %d",count);
+                if(count==1){
+                    printf("[%d] -> %s\n\r",i,palabra);
+                }
+                count=0;
             }
             imprimir=0;
             indice=0;
@@ -47,7 +55,9 @@ void main(){
 }
 void limpiar(char cadena[]){
     for(int index=0;index<100;index++){
+		if(cadena[index]!="0"){
 			cadena[index]="";
+		}
 	}
 }
 int repetir(char cadena[]){
@@ -63,6 +73,9 @@ int repetir(char cadena[]){
         tmp++;
     }
     switch(numero){
+        case "cero":
+            return 0;
+            break;
         case "uno":
             return 1;
             break;
