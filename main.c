@@ -3,6 +3,7 @@
 //declarar el rs232
 #use rs232(baud=9600,parity=N,xmit=PIN_C6,rcv=PIN_C7,bits=8)
 int count=0;
+//declarando el timer0
 #int_timer0
 void timer0()
 {
@@ -46,9 +47,7 @@ void main(){
 }
 void limpiar(char cadena[]){
     for(int index=0;index<100;index++){
-		if(cadena[index]!="0"){
 			cadena[index]="";
-		}
 	}
 }
 int repetir(char cadena[]){
