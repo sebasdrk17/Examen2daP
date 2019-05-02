@@ -6,11 +6,12 @@ int count=0;
 #int_timer0
 void timer0()
 {
-    count++;
+    count=1;
     set_timer0(15536);
 }
 void limpiar(char cadena[]);
 int repetir(char cadena[]);
+void mostrarMensaje();
 void main(){
     setup_oscillator(OSC_16MHZ);
     setup_timer_0(RTCC_INTERNAL|RTCC_DIV_8);
@@ -39,25 +40,27 @@ void main(){
                 indice++;
             }
             numero=repetir(cadena);
-            printf("\n\rVeces a repetir: %d\n\r",numero);
-            for(int i=0;i<numero;i++){
-                printf("contador: %d",count);
-                if(count==1){
-                    printf("[%d] -> %s\n\r",i,palabra);
+            if(numero==0){
+                printf("Error");
+            }else{
+                printf("\n\rVeces a repetir: %d\n\r",numero);
+                for(int i=0;i<numero;i++){
+                    if(count==1){
+                        printf("[%d] -> %s\n\r",i,palabra);
+                    }
                 }
-                count=0;
             }
             imprimir=0;
             indice=0;
+            i=0;
+            mostrarMensaje();
             limpiar(cadena);
         }
     }
 }
 void limpiar(char cadena[]){
     for(int index=0;index<100;index++){
-		if(cadena[index]!="0"){
-			cadena[index]="";
-		}
+		cadena[index]="";
 	}
 }
 int repetir(char cadena[]){
@@ -103,5 +106,14 @@ int repetir(char cadena[]){
         case "nueve":
             return 9;
             break;
+        default:
+            return 0;
+            break;
     }
+}
+
+void mostrarMensaje(){
+    printf("Presiona una tecla para continuar...");
+    getch();
+    printf("\fIngresa la palabra: ");
 }
