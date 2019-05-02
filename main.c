@@ -3,6 +3,7 @@
 //declarar el rs232
 #use rs232(baud=9600,parity=N,xmit=PIN_C6,rcv=PIN_C7,bits=8)
 int count=0;
+//declaracion del timer 0
 #int_timer0
 void timer0()
 {
