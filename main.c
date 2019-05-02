@@ -13,6 +13,11 @@ void timer0()
 void limpiar(char cadena[]);
 int repetir(char cadena[]);
 void main(){
+    setup_oscillator(OSC_16MHZ);
+    setup_timer_0(RTCC_INTERNAL|RTCC_DIV_8);
+    set_timer0(15536);
+    enable_interrupts(INT_TIMER0);
+    enable_interrupts(GLOBAL);
     char cadena[100];
     int indice=0,i=0,imprimir=0,numero=0;
     char palabra[10];
@@ -37,7 +42,11 @@ void main(){
             numero=repetir(cadena);
             printf("\n\rVeces a repetir: %d\n\r",numero);
             for(int i=0;i<numero;i++){
-                printf("[%d] -> %s\n\r",i,palabra);
+                printf("contador: %d",count);
+                if(count==1){
+                    printf("[%d] -> %s\n\r",i,palabra);
+                }
+                count=0;
             }
             imprimir=0;
             indice=0;
@@ -65,6 +74,9 @@ int repetir(char cadena[]){
         tmp++;
     }
     switch(numero){
+        case "cero":
+            return 0;
+            break;
         case "uno":
             return 1;
             break;
